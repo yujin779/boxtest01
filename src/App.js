@@ -1,6 +1,8 @@
 // App.js
 import React, { useRef, useState, useEffect } from "react";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
+import styles from "./styles";
 /*
  * 3.カメラの設定が必要ならば デフォルトの設定でいいならばいらない
  */
@@ -44,24 +46,26 @@ const Box = (props) => {
  */
 const App = () => {
   return (
-    // このタグを入れるとcanvasが作成される
-    <Canvas
-      style={{
-        background: "#324444"
-      }}
-    >
-      {/* カメラの設定 なくても可 */}
-      <Camera position={[0, 0, 4]} />
-      {/* 環境光源 */}
-      <ambientLight intensity={0.5} />
-      {/* スポットライト */}
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-      {/* ポイントライト */}
-      <pointLight position={[-10, -10, -10]} />
-      {/* 上部にあるfunction Boxを実体化 */}
-      <Box position={[-1.2, 0, 0]} />
-      <Box position={[1.2, 0, 0]} />
-    </Canvas>
+    <View style={styles.app}>
+      {/* // このタグを入れるとcanvasが作成される */}
+      <Canvas
+        style={{
+          background: "#324444"
+        }}
+      >
+        {/* カメラの設定 なくても可 */}
+        <Camera position={[0, 0, 4]} />
+        {/* 環境光源 */}
+        <ambientLight intensity={0.5} />
+        {/* スポットライト */}
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+        {/* ポイントライト */}
+        <pointLight position={[-10, -10, -10]} />
+        {/* 上部にあるfunction Boxを実体化 */}
+        <Box position={[-1.2, 0, 0]} />
+        <Box position={[1.2, 0, 0]} />
+      </Canvas>
+    </View>
   );
 };
 export default App;
