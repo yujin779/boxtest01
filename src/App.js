@@ -4,15 +4,15 @@ import * as THREE from "three";
 import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
 import { Canvas, useFrame /*, useThree*/ } from "react-three-fiber";
 import styles from "./styles";
-import texture from "./texture_new2_water_px.png";
+import texture from "./assets/img/texture_new2_water_px.png";
 
 const three_texture = new THREE.TextureLoader().load(texture);
 // テクスチャを並べて表示
 // three_texture.wrapS = THREE.RepeatWrapping;
 // three_texture.wrapT = THREE.RepeatWrapping;
-
 // //テクスチャの倍率、1,1=全面に貼り付け
 three_texture.repeat.set(1, 1);
+
 /*
  * 2.boxのmeshを作成して返す
  */
@@ -40,7 +40,7 @@ const App = () => {
     <View style={styles.app}>
       {/* // このタグを入れるとcanvasが作成される */}
       <Canvas
-        camera={{ position: [0, 1, 2], near: 0.1, far: 5 }}
+        camera={{ position: [0, 3, 4], near: 0.1, far: 50 }}
         style={{
           background: "#324444"
         }}
@@ -52,8 +52,7 @@ const App = () => {
         {/* ポイントライト */}
         <pointLight position={[-10, -10, -10]} />
         {/* 上部にあるfunction Boxを実体化 */}
-        <Box position={[-0.5, 0, 0]} />
-        <Box position={[0.5, 0, 0]} />
+        <Box position={[-1.5, 1.5, 0]} />
       </Canvas>
       <Text style={[styles.text, styles.p1]}>テクスチャ - 1</Text>
     </View>
