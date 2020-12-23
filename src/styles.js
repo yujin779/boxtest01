@@ -4,18 +4,23 @@ import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 
 const styles = StyleSheet.create({
   app: {
+    // width: scale(250),
+    // height: verticalScale(250),
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#c9d14a"
   },
+
+  p1: {
+    left: scale(10),
+    top: scale(10)
+  },
   text: {
     position: "fixed",
-    left: scale(10),
-    top: scale(10),
     margin: "0",
-    paddingTop: scale(0),
-    paddingBottom: scale(3),
+    paddingTop: scale(2),
+    paddingBottom: scale(0),
     paddingLeft: scale(10),
     paddingRight: scale(10),
     color: "#aeb43d",
@@ -23,7 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(4),
     boxShadow: "1px 1px 0 white",
     textShadow: "1px 1px 0 white",
-    fontSize: moderateScale(30)
+    fontSize: moderateScale(20)
   }
 });
 

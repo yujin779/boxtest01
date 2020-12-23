@@ -55,7 +55,7 @@ const App = () => {
         <Box position={[-0.5, 0, 0]} />
         <Box position={[0.5, 0, 0]} />
       </Canvas>
-      <Text style={styles.text}>text</Text>
+      <Text style={[styles.text, styles.p1]}>テクスチャ - 1</Text>
     </View>
   );
 };
