@@ -8,7 +8,9 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native-web": "0.13.16",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "react-three-fiber": "5.3.10",
+    "three": "0.123.0"
   },
   "devDependencies": {},
   "scripts": {
