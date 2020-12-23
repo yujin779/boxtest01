@@ -1,9 +1,17 @@
 // App.js
-import React, { useRef, useState, useEffect } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
-import { Canvas, useFrame, useThree } from "react-three-fiber";
+import React, { useRef /*, useState, useEffect */ } from "react";
+import * as THREE from "three";
+import { /*Button, Image, StyleSheet, Text,*/ View } from "react-native";
+import { Canvas, useFrame /*, useThree*/ } from "react-three-fiber";
 import styles from "./styles";
+import texture from "./texture_new2_water_px.png";
 
+const three_texture = new THREE.TextureLoader().load(texture);
+three_texture.wrapS = THREE.RepeatWrapping;
+three_texture.wrapT = THREE.RepeatWrapping;
+//テクスチャの倍率、1,1=全面に貼り付け
+// 2,2=一面に同じテクスチャを縦横に4つ並べて表示
+three_texture.repeat.set(1, 1);
 /*
  * 2.boxのmeshを作成して返す
  */
@@ -18,7 +26,8 @@ const Box = (props) => {
     <mesh {...props} ref={mesh}>
       {/* ジオメトリ(形)とマテリアル(色など)をメッシュの中にいれる */}
       <boxBufferGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={"orange"} />
+      {/* <meshStandardMaterial color={"orange"} /> */}
+      <meshBasicMaterial map={three_texture} />
     </mesh>
   );
 };
@@ -30,6 +39,7 @@ const App = () => {
     <View style={styles.app}>
       {/* // このタグを入れるとcanvasが作成される */}
       <Canvas
+        camera={{ position: [0, 1, 2], near: 0.1, far: 5 }}
         style={{
           background: "#324444"
         }}
