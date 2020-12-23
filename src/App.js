@@ -1,16 +1,17 @@
 // App.js
 import React, { useRef /*, useState, useEffect */ } from "react";
 import * as THREE from "three";
-import { /*Button, Image, StyleSheet, Text,*/ View } from "react-native";
+import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
 import { Canvas, useFrame /*, useThree*/ } from "react-three-fiber";
 import styles from "./styles";
 import texture from "./texture_new2_water_px.png";
 
 const three_texture = new THREE.TextureLoader().load(texture);
-three_texture.wrapS = THREE.RepeatWrapping;
-three_texture.wrapT = THREE.RepeatWrapping;
-//テクスチャの倍率、1,1=全面に貼り付け
-// 2,2=一面に同じテクスチャを縦横に4つ並べて表示
+// テクスチャを並べて表示
+// three_texture.wrapS = THREE.RepeatWrapping;
+// three_texture.wrapT = THREE.RepeatWrapping;
+
+// //テクスチャの倍率、1,1=全面に貼り付け
 three_texture.repeat.set(1, 1);
 /*
  * 2.boxのmeshを作成して返す
@@ -54,6 +55,7 @@ const App = () => {
         <Box position={[-0.5, 0, 0]} />
         <Box position={[0.5, 0, 0]} />
       </Canvas>
+      <Text style={styles.text}>text</Text>
     </View>
   );
 };
