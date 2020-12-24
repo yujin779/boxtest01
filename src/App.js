@@ -1,5 +1,5 @@
 // App.js
-import React, { useRef /*, useState, useEffect */ } from "react";
+import React, { useRef, useState /*, useEffect */ } from "react";
 import * as THREE from "three";
 import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
 import { Canvas, useFrame /*, useThree*/ } from "react-three-fiber";
@@ -20,29 +20,61 @@ const textures = [
   loader.load(texture5),
   loader.load(texture6)
 ];
-console.log(textures);
-// テクスチャを並べて表示
-// three_texture.wrapS = THREE.RepeatWrapping;
-// three_texture.wrapT = THREE.RepeatWrapping;
-// //テクスチャの倍率、1,1=全面に貼り付け
-// three_texture.repeat.set(1, 1);
 
 /*
  * 2.boxのmeshを作成して返す
  */
-const Box = (props) => {
+const Box2 = (props) => {
+  const [textureNum, setTextureNum] = useState(0);
   // hooks
   const mesh = useRef();
   // 回転させる
   useFrame(() => {
     mesh.current.rotation.y += 0.01;
+    mesh.current.rotation.x += 0.01;
   });
   return (
-    <mesh {...props} ref={mesh}>
+    <mesh
+      {...props}
+      ref={mesh}
+      // クリックするたびにテクスチャを変更
+      onClick={(e) => {
+        setTextureNum(textureNum >= textures.length - 1 ? 0 : textureNum + 1);
+      }}
+    >
       {/* ジオメトリ(形)とマテリアル(色など)をメッシュの中にいれる */}
       <boxBufferGeometry args={[1, 1, 1]} />
       {/* <meshStandardMaterial color={"orange"} /> */}
-      <meshBasicMaterial map={textures[0]} />
+      <meshBasicMaterial map={textures[textureNum]} />
+    </mesh>
+  );
+};
+
+/*
+ * 2.boxのmeshを作成して返す
+ */
+const Box = (props) => {
+  const [textureNum, setTextureNum] = useState(3);
+  // hooks
+  const mesh = useRef();
+  // 回転させる
+  useFrame(() => {
+    mesh.current.rotation.y += 0.01;
+    mesh.current.rotation.x += 0.01;
+  });
+  return (
+    <mesh
+      {...props}
+      ref={mesh}
+      // クリックするたびにテクスチャを変更
+      onClick={(e) => {
+        setTextureNum(textureNum >= textures.length - 1 ? 0 : textureNum + 1);
+      }}
+    >
+      {/* ジオメトリ(形)とマテリアル(色など)をメッシュの中にいれる */}
+      <boxBufferGeometry args={[1, 1, 1]} />
+      {/* <meshStandardMaterial color={"orange"} /> */}
+      <meshBasicMaterial map={textures[textureNum]} />
     </mesh>
   );
 };
@@ -66,7 +98,9 @@ const App = () => {
         {/* ポイントライト */}
         <pointLight position={[-10, -10, -10]} />
         {/* 上部にあるfunction Boxを実体化 */}
-        <Box position={[-1.5, 1.5, 0]} />
+        <Box position={[-1, 1, 0]} />
+
+        <Box2 position={[1, -1, 0]} />
       </Canvas>
       <Text style={[styles.text, styles.p1]}>テクスチャ - 1</Text>
     </View>
