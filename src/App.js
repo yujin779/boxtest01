@@ -1,7 +1,7 @@
 // App.js
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import * as THREE from "three";
-import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
+import {  View } from "react-native";
 import { Canvas, useFrame, useThree, extend } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import styles from "./styles";
