@@ -1,10 +1,10 @@
 // App.js
-import React, { useRef, useState /*, useEffect */ } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
 import { Canvas, useFrame, useThree } from "react-three-fiber";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import styles from "./styles";
-
 // https://kronbits.itch.io/textures8bit
 // 素材はこちらのものを使用しました。
 // 他で使用する際は購入してください。
@@ -17,6 +17,7 @@ import texture4 from "./assets/img/texture_new2_water_px.png";
 import texture5 from "./assets/img/texture_new_bluerocks.png";
 import texture6 from "./assets/img/texture_rocks_moss_px.png";
 
+// ボックスのテクスチャ
 const loader = new THREE.TextureLoader();
 const textures = [
   loader.load(texture1),
@@ -27,20 +28,34 @@ const textures = [
   loader.load(texture6)
 ];
 
+// スカイボックス用のテクスチャ
+const skyBoxLoader = new THREE.CubeTextureLoader();
+const skyboxTexture = skyBoxLoader.load([
+  texture4,
+  texture4,
+  texture4,
+  // 底
+  texture5,
+  texture4,
+  texture4
+]);
+
+const CameraController = () => {
+  const { camera, gl } = useThree();
+  useEffect(() => {
+    const controls = new OrbitControls(camera, gl.domElement);
+
+    controls.minDistance = 3;
+    controls.maxDistance = 20;
+    return () => {
+      controls.dispose();
+    };
+  }, [camera, gl]);
+  return null;
+};
+
 function SkyBox() {
   const { scene } = useThree();
-  const skyBoxLoader = new THREE.CubeTextureLoader();
-  const skyboxTexture = skyBoxLoader.load([
-    texture4,
-    texture4,
-    texture4,
-    // 底
-    texture3,
-    texture4,
-    texture4
-  ]);
-
-  // Set the scene background property to the resulting texture.
   scene.background = skyboxTexture;
   return null;
 }
@@ -105,20 +120,12 @@ const Box = (props) => {
 const App = () => {
   return (
     <View style={styles.app}>
-      {/* // このタグを入れるとcanvasが作成される */}
-      <Canvas
-        camera={{ position: [0, 3, 4], near: 0.1, far: 50 }}
-        style={{
-          background: "#324444"
-        }}
-      >
-        <SkyBox />
-        {/* 環境光源 */}
+      <Canvas camera={{ position: [0, 2, 4], near: 0.1, far: 50 }}>
         <ambientLight intensity={0.5} />
-        {/* スポットライト */}
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-        {/* ポイントライト */}
         <pointLight position={[-10, -10, -10]} />
+        <CameraController />
+        <SkyBox />
         <Box position={[-1, 1, 0]} />
         <Box2 position={[1, -1, 0]} />
       </Canvas>
