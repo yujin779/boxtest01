@@ -2,7 +2,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { /*Button, Image, StyleSheet, */ Text, View } from "react-native";
-import { Canvas, useFrame, useThree } from "react-three-fiber";
+import { Canvas, useFrame, useThree, extend } from "react-three-fiber";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import styles from "./styles";
 // https://kronbits.itch.io/textures8bit
@@ -16,6 +16,8 @@ import texture3 from "./assets/img/texture_floortile_8.png";
 import texture4 from "./assets/img/texture_new2_water_px.png";
 import texture5 from "./assets/img/texture_new_bluerocks.png";
 import texture6 from "./assets/img/texture_rocks_moss_px.png";
+
+extend({ OrbitControls });
 
 // ボックスのテクスチャ
 const loader = new THREE.TextureLoader();
@@ -33,27 +35,39 @@ const skyBoxLoader = new THREE.CubeTextureLoader();
 const skyboxTexture = skyBoxLoader.load([
   texture4,
   texture4,
-  texture4,
+  // 天井
+  texture1,
   // 底
   texture5,
   texture4,
   texture4
 ]);
 
+/**
+ * ドラッグでカメラの角度を変更
+ */
 const CameraController = () => {
-  const { camera, gl } = useThree();
-  useEffect(() => {
-    const controls = new OrbitControls(camera, gl.domElement);
-
-    controls.minDistance = 3;
-    controls.maxDistance = 20;
-    return () => {
-      controls.dispose();
-    };
-  }, [camera, gl]);
-  return null;
+  const {
+    camera,
+    gl: { domElement }
+  } = useThree();
+  const controls = useRef();
+  useFrame(() => controls.current.update());
+  return (
+    <orbitControls
+      ref={controls}
+      args={[camera, domElement]}
+      // カメラのズーム無効
+      enableZoom={false}
+      // カメラのパンを無効
+      enablePan={false}
+    />
+  );
 };
 
+/**
+ * 6面の背景画像
+ */
 function SkyBox() {
   const { scene } = useThree();
   scene.background = skyboxTexture;
@@ -61,7 +75,7 @@ function SkyBox() {
 }
 
 /*
- * 2.boxのmeshを作成して返す
+ * 2.6面が違うmaterialのボックス
  */
 const Box2 = (props) => {
   // hooks
@@ -87,7 +101,7 @@ const Box2 = (props) => {
 };
 
 /*
- * 2.boxのmeshを作成して返す
+ * 2.すべての面に同じテクスチャのボックス
  */
 const Box = (props) => {
   const [textureNum, setTextureNum] = useState(3);
@@ -107,9 +121,7 @@ const Box = (props) => {
         setTextureNum(textureNum >= textures.length - 1 ? 0 : textureNum + 1);
       }}
     >
-      {/* ジオメトリ(形)とマテリアル(色など)をメッシュの中にいれる */}
       <boxBufferGeometry args={[1, 1, 1]} />
-      {/* <meshStandardMaterial color={"orange"} /> */}
       <meshBasicMaterial map={textures[textureNum]} />
     </mesh>
   );
