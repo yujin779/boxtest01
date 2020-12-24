@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
     left: scale(10),
     top: scale(10)
   },
+  p2: {
+    left: scale(90),
+    top: scale(10)
+  },
   text: {
     position: "fixed",
     margin: "0",
